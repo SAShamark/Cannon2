@@ -1,5 +1,7 @@
-using Gameplay.Character;
+using System;
+using Gameplay.Entities.Character;
 using UI.Screens.Variants;
+using UI.Screens.Variants.Gameplay;
 using UnityEngine;
 
 namespace Gameplay
@@ -19,7 +21,15 @@ namespace Gameplay
 
         private void CharacterLaunched(float fuelValue)
         {
-            _characterControl.Initialize(fuelValue);
+            _characterControl.Initialize(_gameplayScreen.Joystick, fuelValue);
+            _characterControl.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateFuelUI;
+            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateAdditionalFuelUI;
+        }
+
+        private void OnDestroy()
+        {
+            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -= _gameplayScreen.FuelUI.UpdateFuelUI;
+            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -= _gameplayScreen.FuelUI.UpdateAdditionalFuelUI;
         }
     }
 }
