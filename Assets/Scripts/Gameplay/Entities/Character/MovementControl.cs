@@ -10,10 +10,12 @@ namespace Gameplay.Entities.Character
         [SerializeField] private float _maxHorizontalSpeed = 10f;
         [SerializeField] private float _tiltSensitivity = 90f;
         [SerializeField] private float _thrustForce = 12f;
+        [SerializeField] private float _additionalThrustForce = 6f;
         [SerializeField] private float _maxTotalTilt = 60f;
 
         public float MaxSpeed => _maxVerticalSpeed;
-        public void ApplyMovement(Rigidbody2D rb, Vector2 joystickInput, bool canMove)
+
+        public void ApplyMovement(Rigidbody2D rb, Vector2 joystickInput, bool canMove, bool hasAdditionalFuel)
         {
             if (!canMove)
             {
@@ -23,12 +25,16 @@ namespace Gameplay.Entities.Character
 
             Rotation(rb, joystickInput);
 
-           
-            float throttle = 1f + joystickInput.y; 
+            float throttle = 1f + joystickInput.y;
             throttle = Mathf.Max(0f, throttle);
 
             Vector2 thrustDirection = rb.transform.up;
             rb.AddForce(thrustDirection * (_thrustForce * throttle), ForceMode2D.Force);
+
+            if (hasAdditionalFuel && joystickInput.y > 0.1f)
+            {
+                rb.AddForce(thrustDirection * (_additionalThrustForce * joystickInput.y), ForceMode2D.Force);
+            }
 
             rb.linearVelocity = new Vector2(
                 Mathf.Clamp(rb.linearVelocity.x, -_maxHorizontalSpeed, _maxHorizontalSpeed),
@@ -40,7 +46,6 @@ namespace Gameplay.Entities.Character
         {
             float rotationAmount = -joystickInput.x * _tiltSensitivity * Time.fixedDeltaTime;
             float newAngle = rb.rotation + rotationAmount;
-            newAngle = Mathf.Clamp(newAngle, -_maxTotalTilt, _maxTotalTilt);
             rb.MoveRotation(newAngle);
         }
     }

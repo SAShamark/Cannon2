@@ -3,11 +3,13 @@ using UnityEngine;
 
 namespace Gameplay.Entities.Character
 {
+    [Serializable]
     public class FuelControl
     {
-        private float _maxFuel;
+        [SerializeField] private float _consumptionRate = 1f;
+        [SerializeField] private float _maxFuel = 100;
+
         private float _currentFuel;
-        private float _consumptionRate = 1f;
 
         public float CurrentFuel => _currentFuel;
         private float FuelRatio => _maxFuel > 0 ? _currentFuel / _maxFuel : 0f;
@@ -15,11 +17,9 @@ namespace Gameplay.Entities.Character
 
         public event Action<float> OnFuelChanged;
 
-        public void Init(float fuelValue, float consumptionRate = 1f)
+        public void Init(float fuelPercent, float maxFuel = 100f)
         {
-            _maxFuel = fuelValue;
-            _currentFuel = fuelValue;
-            _consumptionRate = consumptionRate;
+            _currentFuel = fuelPercent * _maxFuel;
         }
 
         public void ConsumeFuel(float deltaTime)

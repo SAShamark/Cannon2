@@ -9,15 +9,21 @@ namespace UI.Screens.Variants.Gameplay
     [Serializable]
     public class FuelUI
     {
-        [SerializeField] private Image _fuelFillImage;
-        [SerializeField] private TextMeshProUGUI _fuelPercentText;
+        [SerializeField] private FuelDisplay _mainDisplay;
+        [SerializeField] private FuelDisplay _additionalDisplay;
 
-        [SerializeField] private Image _additionalFuelFillImage;
-        [SerializeField] private TextMeshProUGUI _additionalFuelPercentText;
-        
-        [SerializeField] private float _minSpeed = 0.2f;
-        [SerializeField] private float _maxSpeed = 3f;
-        [SerializeField] private Ease _easeType = Ease.InOutSine;
+        [SerializeField] private AnimationCurve _forwardCurve = new(
+            new Keyframe(0f, 0f, 0f, 0f),
+            new Keyframe(1f, 1f, 2f, 2f)
+        );
+
+        [SerializeField] private AnimationCurve _backwardCurve = new(
+            new Keyframe(0f, 0f, 2f, 2f),
+            new Keyframe(1f, 1f, 0f, 0f)
+        );
+
+        [SerializeField] private float _forwardDuration = 2f;
+        [SerializeField] private float _backwardDuration = 1.5f;
 
         public float FuelValue { get; private set; }
 
@@ -26,7 +32,7 @@ namespace UI.Screens.Variants.Gameplay
         public void StartFuelAnimation()
         {
             FuelValue = 0f;
-            UpdateFuelUI(0f);
+            _mainDisplay.UpdateDisplay(0f);
             AnimateForward();
         }
 
@@ -36,54 +42,46 @@ namespace UI.Screens.Variants.Gameplay
             return FuelValue;
         }
 
+        public void UpdateAdditionalDisplay(float value) =>
+            _additionalDisplay.UpdateDisplay(value);
+        public void UpdateMainDisplay(float value) =>
+            _mainDisplay.UpdateDisplay(value);
         private void AnimateForward()
         {
-            float duration = 1f / Mathf.Lerp(_minSpeed, _maxSpeed, 0f);
-
             _tween = DOTween
-                .To(() => FuelValue, SetFuelValue, 1f, duration)
-                .SetEase(_easeType)
+                .To(() => FuelValue, SetFuelValue, 1f, _forwardDuration)
+                .SetEase(_forwardCurve)
                 .OnComplete(AnimateBackward);
         }
 
         private void AnimateBackward()
         {
-            float duration = 1f / Mathf.Lerp(_minSpeed, _maxSpeed, 1f);
-
             _tween = DOTween
-                .To(() => FuelValue, SetFuelValue, 0f, duration)
-                .SetEase(_easeType)
+                .To(() => FuelValue, SetFuelValue, 0f, _backwardDuration)
+                .SetEase(_backwardCurve)
                 .OnComplete(AnimateForward);
         }
 
         private void SetFuelValue(float value)
         {
             FuelValue = value;
-            UpdateFuelUI(value);
-            UpdateAdditionalFuelUI(1);
+            _mainDisplay.UpdateDisplay(value);
         }
+    }
 
-        public void UpdateFuelUI(float value)
+    [Serializable]
+    public class FuelDisplay
+    {
+        [SerializeField] private Image _fillImage;
+        [SerializeField] private TextMeshProUGUI _percentText;
+
+        public void UpdateDisplay(float value)
         {
-            if (_fuelFillImage != null)
-                _fuelFillImage.fillAmount = value;
+            if (_fillImage != null)
+                _fillImage.fillAmount = value;
 
-            if (_fuelPercentText != null)
-                _fuelPercentText.text = $"{Mathf.RoundToInt(value * 100)}%";
-        }
-
-        public void UpdateAdditionalFuelUI(float value)
-        {
-            if (_additionalFuelFillImage != null)
-                _additionalFuelFillImage.fillAmount = value;
-
-            if (_additionalFuelPercentText != null)
-                _additionalFuelPercentText.text = $"{Mathf.RoundToInt(value * 100)}%";
-        }
-
-        private void OnDestroy()
-        {
-            _tween?.Kill();
+            if (_percentText != null)
+                _percentText.text = $"{Mathf.RoundToInt(value * 100)}%";
         }
     }
 }

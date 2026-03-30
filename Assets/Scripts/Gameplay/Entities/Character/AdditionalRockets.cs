@@ -8,12 +8,13 @@ namespace Gameplay.Entities.Character
     public class AdditionalRockets
     {
         [SerializeField] private List<ParticleSystem> _additionRocketsVFX;
+        [SerializeField] private FuelControl _fuelControl;
+        
         public List<ParticleSystem> AdditionRocketsVFX => _additionRocketsVFX;
-        public FuelControl FuelControl { get; private set; } = new();
-
-        public void Init(float fuelValue)
+        public FuelControl FuelControl => _fuelControl;
+        public void Init(float fuelPercent)
         {
-            FuelControl.Init(fuelValue);
+            FuelControl.Init(fuelPercent);
         }
     }
 }

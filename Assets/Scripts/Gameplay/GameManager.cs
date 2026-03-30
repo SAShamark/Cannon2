@@ -1,6 +1,4 @@
-using System;
 using Gameplay.Entities.Character;
-using UI.Screens.Variants;
 using UI.Screens.Variants.Gameplay;
 using UnityEngine;
 
@@ -19,17 +17,19 @@ namespace Gameplay
             _gameplayScreen.OnLaunched += CharacterLaunched;
         }
 
-        private void CharacterLaunched(float fuelValue)
+        private void CharacterLaunched(float fuelPercent)
         {
-            _characterControl.Initialize(_gameplayScreen.Joystick, fuelValue);
-            _characterControl.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateFuelUI;
-            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateAdditionalFuelUI;
+            _characterControl.Initialize(_gameplayScreen.Joystick, fuelPercent);
+            _characterControl.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateMainDisplay;
+            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged +=
+                _gameplayScreen.FuelUI.UpdateAdditionalDisplay;
         }
 
         private void OnDestroy()
         {
-            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -= _gameplayScreen.FuelUI.UpdateFuelUI;
-            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -= _gameplayScreen.FuelUI.UpdateAdditionalFuelUI;
+            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -= _gameplayScreen.FuelUI.UpdateMainDisplay;
+            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -=
+                _gameplayScreen.FuelUI.UpdateAdditionalDisplay;
         }
     }
 }
