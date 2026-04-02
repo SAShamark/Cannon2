@@ -87,7 +87,7 @@ namespace UI
             _planeTickets.SetActive(false);
             _shopButton.gameObject.SetActive(false);
 
-            bool value = _configurationDataService.GetConfigurationData(ConfigurationType.Plane).Level >= 16;
+            bool value = _configurationDataService.GetConfigurationData(ConfigurationType.Body).Level >= 16;
             _configurationManager.AdsConfigurationCard.gameObject.SetActive(value);
         }
 
@@ -102,16 +102,16 @@ namespace UI
         {
             switch (type)
             {
-                case ConfigurationType.Plane:
+                case ConfigurationType.Body:
                     OnAirplaneUpdated?.Invoke(isCycle);
-                    if (_configurationDataService.GetConfigurationData(ConfigurationType.Plane).Level >=
-                        _configurationDataService.ConfigurationCollection.RocketConfig.PlaneLevelToUnlock)
+                    if (_configurationDataService.GetConfigurationData(ConfigurationType.Body).Level >=
+                        _configurationDataService.ConfigurationCollection.AdditionalEngineConfig.PlaneLevelToUnlock)
                     {
                         _configurationManager.AdsConfigurationCard.gameObject.SetActive(true);
                     }
 
                     break;
-                case ConfigurationType.Slingshot:
+                case ConfigurationType.Engine:
                     OnRopeUpdated?.Invoke(isCycle);
                     break;
                 case ConfigurationType.Income:

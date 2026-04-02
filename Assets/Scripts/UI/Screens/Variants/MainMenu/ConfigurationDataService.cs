@@ -40,7 +40,7 @@ namespace UI.Screens.MainMenu
 
         public void ResetLevelData()
         {
-            ConfigurationData.Find(data => data.Type == ConfigurationType.Plane).AdditionalLevel = 1;
+            ConfigurationData.Find(data => data.Type == ConfigurationType.Body).AdditionalLevel = 1;
             ConfigurationData.Find(data => data.Type == ConfigurationType.Rocket).Level = 0;
             ConfigurationData.Find(data => data.Type == ConfigurationType.Rocket).IsUnlocked = false;
 

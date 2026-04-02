@@ -7,23 +7,23 @@ namespace Gameplay.Data
     [CreateAssetMenu(fileName = "ConfigurationCollection", menuName = "ScriptableObjects/Configuration/Collection")]
     public class ConfigurationCollection : ScriptableObject
     {
-        [SerializeField] private AirplaneConfig _airplaneConfig;
-        [SerializeField] private SlingshotRopeConfig _slingshotRopeConfig;
+        [SerializeField] private RocketBodyConfig _rocketBodyConfig;
+        [SerializeField] private MainEngineConfig _mainEngineConfig;
         [SerializeField] private CurrencyMultiplierConfig _currencyMultiplierConfig;
-        [SerializeField] private RocketConfig _rocketConfig;
+        [SerializeField] private AdditionalEngineConfig _additionalEngineConfig;
 
-        public AirplaneConfig AirplaneConfig => _airplaneConfig;
-        public SlingshotRopeConfig SlingshotRopeConfig => _slingshotRopeConfig;
+        public RocketBodyConfig RocketBodyConfig => _rocketBodyConfig;
+        public MainEngineConfig MainEngineConfig => _mainEngineConfig;
         public CurrencyMultiplierConfig CurrencyMultiplierConfig => _currencyMultiplierConfig;
-        public RocketConfig RocketConfig => _rocketConfig;
+        public AdditionalEngineConfig AdditionalEngineConfig => _additionalEngineConfig;
 
 
         public Dictionary<ConfigurationType, BaseConfigurationConfig> Configurations => new()
         {
-            { ConfigurationType.Plane, _airplaneConfig },
-            { ConfigurationType.Slingshot, _slingshotRopeConfig },
+            { ConfigurationType.Body, _rocketBodyConfig },
+            { ConfigurationType.Engine, _mainEngineConfig },
             { ConfigurationType.Income, _currencyMultiplierConfig },
-            { ConfigurationType.Rocket, _rocketConfig }
+            { ConfigurationType.Rocket, _additionalEngineConfig }
         };
 
         public int GetUpgradeCost(ConfigurationType type, int level)

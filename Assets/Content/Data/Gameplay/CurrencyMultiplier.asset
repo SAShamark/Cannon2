@@ -16,6 +16,6 @@ MonoBehaviour:
   _growth: 1.25
   _geometricMultiplier: 3.75
   _upgradeCountToNextPart: 6
-  _sprite: {fileID: 21300000, guid: 4b3349499f3f4fa4ca74f3b58023340c, type: 3}
+  _sprite: {fileID: 21300000, guid: aea836296c13940c2b0a18e6770aaf6d, type: 3}
   _sprites:
-  - {fileID: 21300000, guid: 4b3349499f3f4fa4ca74f3b58023340c, type: 3}
+  - {fileID: 21300000, guid: aea836296c13940c2b0a18e6770aaf6d, type: 3}

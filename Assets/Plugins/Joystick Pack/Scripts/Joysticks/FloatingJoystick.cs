@@ -1,9 +1,11 @@
-﻿using UnityEngine.EventSystems;
+﻿using System;
+using UnityEngine.EventSystems;
 
 public class FloatingJoystick : Joystick
 {
     public bool IsPointerDown { get; private set; }
 
+    public event Action PointerDowned;
     protected override void Start()
     {
         base.Start();
@@ -15,6 +17,7 @@ public class FloatingJoystick : Joystick
         background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
         background.gameObject.SetActive(true);
         IsPointerDown = true;
+        PointerDowned?.Invoke();
         base.OnPointerDown(eventData);
     }
 

@@ -19,11 +19,27 @@ public class CameraControl : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private CinemachineFollow _followComponent;
 
+    private float _initialOrthographicSize;
+    private Vector3 _initialFollowOffset;
+
     public void Start()
     {
         _rigidbody = _characterControl.GetComponent<Rigidbody2D>();
         _followComponent = _cinemachineCamera.GetComponent<CinemachineFollow>();
-        _cinemachineCamera.Lens.OrthographicSize = _orthographicRange.x;
+    
+        _initialOrthographicSize = _orthographicRange.x;
+        _initialFollowOffset = _followComponent.FollowOffset;
+    
+        _cinemachineCamera.Lens.OrthographicSize = _initialOrthographicSize;
+    }
+
+    private void OnDestroy()
+    {
+        if (_followComponent != null)
+            _followComponent.FollowOffset = _initialFollowOffset;
+    
+        if (_cinemachineCamera != null)
+            _cinemachineCamera.Lens.OrthographicSize = _initialOrthographicSize;
     }
 
     private void Update()

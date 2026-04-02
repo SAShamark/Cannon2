@@ -1,35 +1,37 @@
+﻿using Gameplay.Entities.Background;
 using Gameplay.Entities.Character;
-using UI.Screens.Variants.Gameplay;
+using UI;
+using UI.Managers;
+using UI.Screens;
 using UnityEngine;
 
 namespace Gameplay
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private CharacterControl _characterControl;
-        [SerializeField] private GameplayScreen _gameplayScreen;
         [SerializeField] private BackgroundController _backgroundController;
+        [SerializeField] private CharacterControl _characterControl;
+        [SerializeField] private GameplayManager _gameplayManager;
+
+        private MainMenuScreen _mainMenuScreen;
 
         private void Start()
         {
             _backgroundController.Init(_characterControl.transform);
-            _gameplayScreen.Init();
-            _gameplayScreen.OnLaunched += CharacterLaunched;
-        }
-
-        private void CharacterLaunched(float fuelPercent)
-        {
-            _characterControl.Initialize(_gameplayScreen.Joystick, fuelPercent);
-            _characterControl.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateMainDisplay;
-            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged +=
-                _gameplayScreen.FuelUI.UpdateAdditionalDisplay;
+            
+            UIManager.Instance.ScreensManager.ShowScreen(ScreenTypes.MainMenu);
+            _mainMenuScreen = UIManager.Instance.ScreensManager.GetScreen(ScreenTypes.MainMenu) as MainMenuScreen;
+            _mainMenuScreen.OnStartGameplay += StartGameplay;
         }
 
         private void OnDestroy()
         {
-            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -= _gameplayScreen.FuelUI.UpdateMainDisplay;
-            _characterControl.AdditionalRockets.FuelControl.OnFuelChanged -=
-                _gameplayScreen.FuelUI.UpdateAdditionalDisplay;
+            _mainMenuScreen.OnStartGameplay -= StartGameplay;
+        }
+
+        private void StartGameplay()
+        {
+            _gameplayManager.Init(_backgroundController, _characterControl);
         }
     }
 }

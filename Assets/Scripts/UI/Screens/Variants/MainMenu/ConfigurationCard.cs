@@ -16,8 +16,8 @@ namespace UI
         [SerializeField] private TextMeshProUGUI _levelText;
         [SerializeField] private TextMeshProUGUI _costText;
         [SerializeField] private List<Image> _levelIndicators;
-        [SerializeField] private Sprite _filledIndicatorSprite;
-        [SerializeField] private Sprite _emptyIndicatorSprite;
+        [SerializeField] private Color _filledIndicatorColor;
+        [SerializeField] private Color _emptyIndicatorColor;
         [SerializeField] private ConfigurationManager _configurationManager;
 
         private int _level;
@@ -63,7 +63,7 @@ namespace UI
 
             for (int i = 0; i < _levelIndicators.Count; i++)
             {
-                _levelIndicators[i].sprite = i < activeCount ? _filledIndicatorSprite : _emptyIndicatorSprite;
+                _levelIndicators[i].color = i < activeCount ? _filledIndicatorColor : _emptyIndicatorColor;
             }
         }
     }

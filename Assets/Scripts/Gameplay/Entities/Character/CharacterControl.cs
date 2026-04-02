@@ -1,36 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Gameplay.Entities.Background;
+using Gameplay.Entities.Items;
+using Services.Currency;
 using UnityEngine;
 
 namespace Gameplay.Entities.Character
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class CharacterControl : MonoBehaviour
+    public class CharacterControl : MonoBehaviour, ICatchHandler
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private MovementControl _movementControl;
         [SerializeField] private FuelControl _fuelControl;
         [SerializeField] private List<ParticleSystem> _mainRocketsVFX;
         [SerializeField] private AdditionalRockets _additionalRockets;
-
-        private bool _isInitialized;
+        [SerializeField] private GameObject _magnet;
+        [SerializeField] private HealthControl _healthControl;
+        public bool IsLaunched { get; private set; }
         private FloatingJoystick _joystick;
 
+        public HealthControl HealthControl => _healthControl;
         public FuelControl FuelControl => _fuelControl;
         public AdditionalRockets AdditionalRockets => _additionalRockets;
         public MovementControl MovementControl => _movementControl;
+
+        public event Action OnLevelFinished;
 
         public void Initialize(FloatingJoystick joystick, float fuelPercent)
         {
             _joystick = joystick;
             FuelControl.Init(fuelPercent);
+            _healthControl.Init();
             _additionalRockets.Init(1);
             _mainRocketsVFX[0].transform.parent.gameObject.SetActive(true);
-            _isInitialized = true;
+            IsLaunched = true;
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (!IsLaunched) return;
+            ContactPoint2D contact = collision.GetContact(0);
+            _healthControl.TakeCollisionDamage(collision.relativeVelocity, contact.normal);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            collision.TryGetComponent(out FinishTileControl finishTile);
+            if (finishTile != null)
+            {
+                OnLevelFinished?.Invoke();
+            }
         }
 
         private void FixedUpdate()
         {
-            if (!_isInitialized)
+            if (!IsLaunched)
             {
                 return;
             }
@@ -83,6 +108,26 @@ namespace Gameplay.Entities.Character
                     main.startSizeMultiplier = Mathf.Lerp(0.4f, 1.1f, intensity);
                 }
             }
+        }
+
+        public void EarnCurrency(CurrencyType type, int value)
+        {
+            //ServicesManager.Instance.CurrencyService.GetCurrencyByType(type).EarnCurrency(value);
+        }
+
+        public void EarnFuel(int value)
+        {
+            FuelControl.RefillFuel(value);
+        }
+
+        public void GetMagnet(float radius, float duration)
+        {
+            _magnet.SetActive(true);
+        }
+
+        public void GetAccelerator(float percent, float duration)
+        {
+            //_movementControl
         }
     }
 }

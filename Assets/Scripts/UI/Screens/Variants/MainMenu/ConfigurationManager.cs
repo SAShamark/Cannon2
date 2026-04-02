@@ -34,10 +34,10 @@ namespace UI
                 int upgradeCost = _dataService.ConfigurationCollection.GetUpgradeCost(data.Type, data.Level);
                 switch (data.Type)
                 {
-                    case ConfigurationType.Plane:
+                    case ConfigurationType.Body:
                         _airplaneCard.Initialize(
-                            _dataService.ConfigurationCollection.AirplaneConfig.Sprite,
-                            _dataService.ConfigurationCollection.AirplaneConfig.UpgradeCountToNextPart - 1,
+                            _dataService.ConfigurationCollection.RocketBodyConfig.Sprite,
+                            _dataService.ConfigurationCollection.RocketBodyConfig.UpgradeCountToNextPart - 1,
                             data.Level, upgradeCost);
                         _airplaneCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
@@ -45,10 +45,10 @@ namespace UI
 
                         break;
 
-                    case ConfigurationType.Slingshot:
+                    case ConfigurationType.Engine:
                         _slingshotRopeCard.Initialize(
-                            _dataService.ConfigurationCollection.SlingshotRopeConfig.Sprite,
-                            _dataService.ConfigurationCollection.SlingshotRopeConfig.UpgradeCountToNextPart - 1,
+                            _dataService.ConfigurationCollection.MainEngineConfig.Sprite,
+                            _dataService.ConfigurationCollection.MainEngineConfig.UpgradeCountToNextPart - 1,
                             data.Level, upgradeCost);
                         _slingshotRopeCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
@@ -68,7 +68,7 @@ namespace UI
                         break;
                     case ConfigurationType.Rocket:
                         _adsConfigurationCard.Initialize(
-                            _dataService.ConfigurationCollection.RocketConfig.Sprite, data.Level);
+                            _dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite, data.Level);
                         _adsConfigurationCard.OnConfigUpgrade += UpgradeRocket;
                         break;
                     default:
@@ -80,30 +80,30 @@ namespace UI
 
         private void UpgradeAirplane()
         {
-            if (_dataService.TryUpgrade(ConfigurationType.Plane, out int newLevel, out int newCost))
+            if (_dataService.TryUpgrade(ConfigurationType.Body, out int newLevel, out int newCost))
             {
-                Sprite sprite = _dataService.ConfigurationCollection.AirplaneConfig.Sprite;
+                Sprite sprite = _dataService.ConfigurationCollection.RocketBodyConfig.Sprite;
                 _airplaneCard.Draw(sprite, newLevel, newCost);
             }
 
             ChangeCardsInteractability();
-            int interval = _dataService.ConfigurationCollection.AirplaneConfig.UpgradeCountToNextPart;
+            int interval = _dataService.ConfigurationCollection.RocketBodyConfig.UpgradeCountToNextPart;
             bool isCycle = (newLevel - interval) % (interval - 1) == 0;
-            OnUpgrade?.Invoke(ConfigurationType.Plane, isCycle);
+            OnUpgrade?.Invoke(ConfigurationType.Body, isCycle);
         }
 
         private void UpgradeSlingshotRope()
         {
-            if (_dataService.TryUpgrade(ConfigurationType.Slingshot, out int newLevel, out int newCost))
+            if (_dataService.TryUpgrade(ConfigurationType.Engine, out int newLevel, out int newCost))
             {
-                Sprite sprite = _dataService.ConfigurationCollection.SlingshotRopeConfig.Sprite;
+                Sprite sprite = _dataService.ConfigurationCollection.MainEngineConfig.Sprite;
                 _slingshotRopeCard.Draw(sprite, newLevel, newCost);
             }
 
             ChangeCardsInteractability();
-            int interval = _dataService.ConfigurationCollection.SlingshotRopeConfig.UpgradeCountToNextPart;
+            int interval = _dataService.ConfigurationCollection.MainEngineConfig.UpgradeCountToNextPart;
             bool isCycle = (newLevel - interval) % (interval - 1) == 0;
-            OnUpgrade?.Invoke(ConfigurationType.Slingshot, isCycle);
+            OnUpgrade?.Invoke(ConfigurationType.Engine, isCycle);
         }
 
         private void UpgradeCurrencyMultiplier()
@@ -140,7 +140,7 @@ namespace UI
         private void UpgradeRocket(ConfigurationType type, int level)
         {
             _dataService.UpgradeRocket();
-            var sprite = _dataService.ConfigurationCollection.RocketConfig.Sprite;
+            var sprite = _dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite;
             _adsConfigurationCard.Draw(sprite, level + 1);
             OnUpgrade?.Invoke(ConfigurationType.Rocket, false);
         }
@@ -152,13 +152,13 @@ namespace UI
                 int upgradeCost = _dataService.ConfigurationCollection.GetUpgradeCost(data.Type, data.Level);
                 switch (data.Type)
                 {
-                    case ConfigurationType.Plane:
+                    case ConfigurationType.Body:
                         _airplaneCard.Draw(
-                            _dataService.ConfigurationCollection.AirplaneConfig.Sprite, data.Level, upgradeCost);
+                            _dataService.ConfigurationCollection.RocketBodyConfig.Sprite, data.Level, upgradeCost);
                         break;
-                    case ConfigurationType.Slingshot:
+                    case ConfigurationType.Engine:
                         _slingshotRopeCard.Draw(
-                            _dataService.ConfigurationCollection.SlingshotRopeConfig.Sprite, data.Level, upgradeCost);
+                            _dataService.ConfigurationCollection.MainEngineConfig.Sprite, data.Level, upgradeCost);
                         break;
                     case ConfigurationType.Income:
                         var currentLevel = _storageService.LoadData(StorageConstants.LEVEL_PROGRESS_KEY, 1);
@@ -169,7 +169,7 @@ namespace UI
                                 data.Level, currentLevel));
                         break;
                     case ConfigurationType.Rocket:
-                        _adsConfigurationCard.Draw(_dataService.ConfigurationCollection.RocketConfig.Sprite,
+                        _adsConfigurationCard.Draw(_dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite,
                             data.Level);
                         break;
                 }
@@ -185,11 +185,11 @@ namespace UI
                 int upgradeCost = _dataService.ConfigurationCollection.GetUpgradeCost(data.Type, data.Level);
                 switch (data.Type)
                 {
-                    case ConfigurationType.Plane:
+                    case ConfigurationType.Body:
                         _airplaneCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
                         break;
-                    case ConfigurationType.Slingshot:
+                    case ConfigurationType.Engine:
                         _slingshotRopeCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
                         break;

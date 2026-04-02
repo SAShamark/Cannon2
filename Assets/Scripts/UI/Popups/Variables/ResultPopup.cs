@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 namespace UI.Popups.Variables
 {
-    public class LevelCompletedPopup : BasePopup
-    {
-    }
-
     public class ResultPopup : BasePopup
     {
         [SerializeField] private TMP_Text _earnedCoinsText;

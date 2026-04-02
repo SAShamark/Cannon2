@@ -18,8 +18,8 @@ MonoBehaviour:
   - _type: 1
     _value: {fileID: 21300000, guid: d2b25fbb97c8641cdbe1c030a8b8966f, type: 3}
   - _type: 2
-    _value: {fileID: 21300000, guid: 20390c1c8b13a446c91f57d88aa1f368, type: 3}
+    _value: {fileID: 21300000, guid: 74ed504ab835c49918ce85d3d555db08, type: 3}
   - _type: 3
-    _value: {fileID: 21300000, guid: 9f07d22fec8154b31b4a1b52db644ef3, type: 3}
+    _value: {fileID: 21300000, guid: c5d79a9980e26436e80531484033dddf, type: 3}
   _maxPlaneTickets: 20
   _restorePlaneTicketsSeconds: 1200
