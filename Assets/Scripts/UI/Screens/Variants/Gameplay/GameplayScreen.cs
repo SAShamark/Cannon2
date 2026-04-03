@@ -27,7 +27,7 @@ namespace UI.Screens.Variants.Gameplay
         public FloatingJoystick Joystick => _floatingJoystick;
         public event Action<float> OnLaunched;
 
-        public void Init(int bestScore = 0)
+        public void Init(float bestScore, float finishLineDistance)
         {
             _floatingJoystick.PointerDowned += OnLaunch;
 
@@ -35,9 +35,21 @@ namespace UI.Screens.Variants.Gameplay
             _afterLaunch.SetActive(false);
 
             _fuelUI.StartFuelAnimation();
-            
-            _bestScoreIndicator.gameObject.SetActive(bestScore > 0);
-            _bestScoreIndicator.anchoredPosition = new Vector2(bestScore, _bestScoreIndicator.anchoredPosition.y);
+
+            if (bestScore > 0 && finishLineDistance > 0)
+            {
+                _bestScoreIndicator.gameObject.SetActive(true);
+        
+                float progress = Mathf.Clamp01(bestScore / finishLineDistance);
+        
+                float sliderHeight = _distanceSlider.GetComponent<RectTransform>().rect.height;
+        
+                _bestScoreIndicator.anchoredPosition = new Vector2(progress * sliderHeight, _bestScoreIndicator.anchoredPosition.x);
+            }
+            else
+            {
+                _bestScoreIndicator.gameObject.SetActive(false);
+            }
         }
 
         public void UpdateDistance(int distance, float progressPercent)
@@ -59,8 +71,7 @@ namespace UI.Screens.Variants.Gameplay
 
             float captured = _fuelUI.StopFuelAnimation();
 
-            _beforeLaunch.SetActive(false);
-            _afterLaunch.SetActive(true);
+            AfterLaunch();
 
             OnLaunched?.Invoke(captured);
         }
@@ -68,6 +79,18 @@ namespace UI.Screens.Variants.Gameplay
         public void UpdateHealth(float value)
         {
             _healthText.text = $"Health: {Mathf.RoundToInt(value)}%";
+        }
+
+        public void AfterLaunch()
+        {
+            _beforeLaunch.SetActive(false);
+            _afterLaunch.SetActive(true);
+        }
+
+        public void BeforeLaunch()
+        {
+            _beforeLaunch.SetActive(true);
+            _afterLaunch.SetActive(false);
         }
     }
 }

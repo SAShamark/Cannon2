@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Screens.Variants.MainMenu
 {
     public class ConfigurationCard : MonoBehaviour
     {

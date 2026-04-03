@@ -17,8 +17,6 @@ public class ApplicationStart : MonoBehaviour
     private IEnumerator Start()
     {
         EarnCurrency(100, CurrencyType.Coin);
-        var uiManager = UIManager.Instance;
-        uiManager.ScreensManager.ShowScreen(ScreenTypes.MainMenu);
         yield return new WaitForSeconds(0f);
         SceneManager.LoadScene("SampleScene");
     }

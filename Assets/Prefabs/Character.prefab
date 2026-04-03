@@ -79,7 +79,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9091864753567986424, guid: d3e1071edaf09e2499e86b6cd57edf12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &211670481314354388
 Transform:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: -7737355169348179417}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -266,8 +266,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Entities.Character.CharacterControl
   _rigidbody2D: {fileID: -3157411312353436450}
   _movementControl:
-    _maxVerticalSpeed: 5
-    _maxHorizontalSpeed: 5
+    _maxVerticalSpeed: 22.67
+    _maxHorizontalSpeed: 3
     _tiltSensitivity: 90
     _thrustForce: 12
     _additionalThrustForce: 6
@@ -285,7 +285,7 @@ MonoBehaviour:
     _fuelControl:
       _consumptionRate: 1
       _maxFuel: 25
-  _magnet: {fileID: 0}
+  _magnet: {fileID: 4569735530452487031}
   _healthControl:
     _maxHealth: 100
     _minImpactSpeed: 2
@@ -515,6 +515,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
@@ -554,7 +558,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 762352654476923557, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8764473058345964675, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     - {fileID: 8764373218812076563, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
@@ -693,6 +698,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
@@ -724,7 +733,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 762352654476923557, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8764473058345964675, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     - {fileID: 8764373218812076563, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
@@ -863,6 +873,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
@@ -894,7 +908,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 762352654476923557, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8764473058345964675, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     - {fileID: 7684677543225702287, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
@@ -1029,6 +1044,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891297334280618237, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
@@ -1068,7 +1087,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 762352654476923557, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8764473058345964675, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
     - {fileID: 8764373218812076563, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}

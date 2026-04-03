@@ -2,10 +2,9 @@ using System;
 using Gameplay.Data;
 using Services.Currency;
 using Services.Storage;
-using UI.Screens.MainMenu;
 using UnityEngine;
 
-namespace UI
+namespace UI.Screens.Variants.MainMenu
 {
     [Serializable]
     public class ConfigurationManager : IDisposable

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Screens.Variants.MainMenu
 {
     public class AdsConfigurationCard : MonoBehaviour
     {

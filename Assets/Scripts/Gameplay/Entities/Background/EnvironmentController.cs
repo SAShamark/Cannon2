@@ -1,11 +1,12 @@
-﻿using Services.ObjectPool;
+﻿using System;
+using Services.ObjectPool;
 using UnityEngine;
 
 namespace Gameplay.Entities.Background
 {
-    public class BackgroundController : MonoBehaviour
+    public class EnvironmentController : MonoBehaviour
     {
-        private enum TileType
+        public enum TileType
         {
             Start,
             Middle,
@@ -14,7 +15,7 @@ namespace Gameplay.Entities.Background
 
         [SerializeField] private TileControl _startPrefab;
         [SerializeField] private TileControl _middlePrefab;
-        [SerializeField] private TileControl _endPrefab;
+        [SerializeField] private FinishTileControl _endPrefab;
 
         [Tooltip("Total rows: 1 start + N middle + 1 end")] [SerializeField]
         private int _totalRows = 14;
@@ -32,6 +33,7 @@ namespace Gameplay.Entities.Background
 
         private Vector2Int _currentCell = Vector2Int.zero;
         private Vector3 _lastStepPos;
+        public event Action OnFinishReached;
 
         public void Init(Transform characterTransform)
         {
@@ -200,7 +202,7 @@ namespace Gameplay.Entities.Background
         }
 
 
-        private ObjectPool PoolFor(TileType type) => type switch
+        public ObjectPool PoolFor(TileType type) => type switch
         {
             TileType.Start => _startPool,
             TileType.End => _endPool,
@@ -211,7 +213,20 @@ namespace Gameplay.Entities.Background
         {
             GameObject go = pool.GetFreeElement();
             go.transform.position = position;
-            return go.GetComponent<TileControl>();
+            var tile = go.GetComponent<TileControl>();
+
+            if (tile is FinishTileControl finishTile)
+            {
+                finishTile.FinishHandler.OnFinishCrossed -= HandleFinishCrossed;
+                finishTile.FinishHandler.OnFinishCrossed += HandleFinishCrossed;
+            }
+
+            return tile;
+        }
+
+        private void HandleFinishCrossed()
+        {
+            OnFinishReached?.Invoke();
         }
 
         private void ReturnToPool(TileControl tile, TileType type)

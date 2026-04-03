@@ -2,7 +2,7 @@
 using Gameplay.Entities.Items;
 using UnityEngine;
 
-namespace Gameplay
+namespace Gameplay.Entities.Spawn
 {
     [Serializable]
     public class SpawnEntityData

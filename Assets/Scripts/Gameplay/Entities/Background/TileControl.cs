@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Gameplay
+namespace Gameplay.Entities.Background
 {
     public class TileControl : MonoBehaviour
     {

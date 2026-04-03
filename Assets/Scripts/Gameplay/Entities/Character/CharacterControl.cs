@@ -32,8 +32,8 @@ namespace Gameplay.Entities.Character
             _joystick = joystick;
             FuelControl.Init(fuelPercent);
             _healthControl.Init();
-            _additionalRockets.Init(1);
             _mainRocketsVFX[0].transform.parent.gameObject.SetActive(true);
+            _additionalRockets.Init(1);
             IsLaunched = true;
         }
 

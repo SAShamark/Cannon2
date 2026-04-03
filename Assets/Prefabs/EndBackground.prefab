@@ -302,6 +302,7 @@ MonoBehaviour:
   _rightBound: {fileID: 8691064176285393308}
   _topBound: {fileID: 2462071515822804457}
   _bottomBound: {fileID: 3839865746193720392}
+  _finishHandler: {fileID: 9057546579944995118}
 --- !u!1 &6637353705171090805
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +314,7 @@ GameObject:
   - component: {fileID: 4147511644760957127}
   - component: {fileID: 8615865057109400524}
   - component: {fileID: 6901032061900893161}
+  - component: {fileID: 9057546579944995118}
   m_Layer: 0
   m_Name: FinishLine
   m_TagString: Untagged
@@ -440,3 +442,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 5.12, y: 5.12}
   m_EdgeRadius: 0
+--- !u!114 &9057546579944995118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6637353705171090805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3421ec6ea9d8b1a49947294e28dff4f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _finishParticle: {fileID: 0}

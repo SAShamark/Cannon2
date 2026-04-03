@@ -3,7 +3,7 @@ using Services;
 using Services.Currency;
 using Services.Storage;
 using Services.Time;
-using UI.Screens.MainMenu;
+using UI.Screens.Variants.MainMenu;
 using UnityEngine;
 
 public class ServicesManager : MonoSingleton<ServicesManager>

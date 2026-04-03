@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Popups.Variables.Loading
+namespace UI.Popups.Variables
 {
     public class ResultPopupOld : BasePopup
     {

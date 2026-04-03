@@ -3,7 +3,7 @@ using Gameplay.Data;
 using Services.Currency;
 using Services.Storage;
 
-namespace UI.Screens.MainMenu
+namespace UI.Screens.Variants.MainMenu
 {
     public class ConfigurationDataService
     {

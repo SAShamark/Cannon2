@@ -1,6 +1,6 @@
 using UI.Screens.Base;
 
-namespace UI
+namespace UI.Screens.Variants
 {
     public class ChestScreen : BaseScreen
     {

@@ -3,13 +3,12 @@ using Services.Currency;
 using Services.Storage;
 using UI.Managers;
 using UI.Popups;
-using UI.Screens;
 using UI.Screens.Base;
-using UI.Screens.MainMenu;
+using UI.Screens.Variants.MainMenu;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Screens.Variants
 {
     public class MainMenuScreen : BaseScreen
     {

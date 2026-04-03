@@ -27,7 +27,9 @@ namespace Gameplay.Entities.Spawn
             _pools = new Dictionary<SpawnEntityData, ObjectPool>();
 
             foreach (SpawnEntityData data in _entityData)
+            {
                 _pools[data] = new ObjectPool(data.Entity.gameObject, data.InitialPoolSize, _container);
+            }
 
             _nextSpawnY = _target.position.y + _spawnAheadDistance;
         }

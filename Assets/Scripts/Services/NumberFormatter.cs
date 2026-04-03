@@ -1,4 +1,4 @@
-namespace UI
+namespace Services
 {
     public static class NumberFormatter
     {

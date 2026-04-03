@@ -16,7 +16,7 @@ MonoBehaviour:
   _growth: 1.25
   _geometricMultiplier: 3.75
   _upgradeCountToNextPart: 6
-  _sprite: {fileID: 21300000, guid: ed1040a00dc884dc8a1cecce7ccc33c4, type: 3}
+  _sprite: {fileID: -1537165311947530696, guid: cb78a21f698c0124eac8dc52aad95aa8, type: 3}
   _ropeMaterials:
   - {fileID: 2100000, guid: a5b2665bbd962b548acfe5a6fb41dcdf, type: 2}
   - {fileID: 2100000, guid: 7af0270f97d63864b8ec4d22b435d768, type: 2}
