@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Gameplay.Entities.Character;
 using Services.ObjectPool;
 using UnityEngine;
 
@@ -10,12 +9,17 @@ namespace Gameplay.Entities.Spawn
         [SerializeField] private List<SpawnEntityData> _entityData;
         [SerializeField] private Transform _container;
 
-        [SerializeField] private float _spawnAheadDistance = 20f;
-        [SerializeField] private float _spawnInterval = 10f;
-        [SerializeField] private float _despawnDistance = 15f;
+        [Header("Distance Settings")]
+        // Дистанція від гравця, де з'являються об'єкти
+        [SerializeField] private float _baseSpawnDistance = 20f; 
+        // Дистанція деспавну (має бути значно більшою за спавн)
+        [SerializeField] private float _despawnDistance = 40f; 
+
+        [Header("Spawn Rate")]
+        [SerializeField] private float _spawnInterval = 1.5f;
 
         private Transform _target;
-        private float _nextSpawnY;
+        private float _spawnTimer;
         private Dictionary<SpawnEntityData, ObjectPool> _pools;
         private readonly List<GameObject> _activeEntities = new();
         private readonly Dictionary<GameObject, ObjectPool> _entityToPool = new();
@@ -23,32 +27,40 @@ namespace Gameplay.Entities.Spawn
         public void Init(Transform target)
         {
             _target = target;
-
             _pools = new Dictionary<SpawnEntityData, ObjectPool>();
 
             foreach (SpawnEntityData data in _entityData)
             {
                 _pools[data] = new ObjectPool(data.Entity.gameObject, data.InitialPoolSize, _container);
             }
-
-            _nextSpawnY = _target.position.y + _spawnAheadDistance;
         }
 
         private void Update()
         {
-            if (_target != null)
-            {
-                if (_target.position.y + _spawnAheadDistance >= _nextSpawnY)
-                {
-                    TrySpawn();
-                }
+            if (_target == null) return;
 
-                CleanUpOffscreenObjects();
+            // Логіка таймера
+            _spawnTimer += Time.deltaTime;
+            if (_spawnTimer >= _spawnInterval)
+            {
+                TrySpawn();
+                _spawnTimer = 0;
             }
+
+            CleanUpOffscreenObjects();
         }
 
         private void TrySpawn()
         {
+            // Визначаємо напрямок руху. 
+            // Якщо є Rigidbody2D, беремо velocity. Якщо ні — беремо напрямок носа (_target.up)
+            Vector2 moveDir = _target.up; 
+            var rb = _target.GetComponent<Rigidbody2D>();
+            if (rb != null && rb.linearVelocity.magnitude > 0.1f)
+            {
+                moveDir = rb.linearVelocity.normalized;
+            }
+
             int count = Random.Range(1, 4);
 
             for (int i = 0; i < count; i++)
@@ -59,15 +71,22 @@ namespace Gameplay.Entities.Spawn
                 ObjectPool pool = _pools[selected];
                 GameObject obj = pool.GetFreeElement();
 
-                float spawnY = _nextSpawnY + Random.Range(-3f, 3f);
-                float spawnX = Random.Range(selected.MinRange, selected.MaxRange);
-                obj.transform.position = new Vector3(spawnX, spawnY, 0f);
+                // Головний секрет Into Space: спавн у конусі попереду гравця
+                // Додаємо випадкове відхилення від курсу (наприклад, +/- 70 градусів)
+                float randomAngle = Random.Range(-70f, 70f);
+                Vector3 spawnDir = Quaternion.Euler(0, 0, randomAngle) * moveDir;
+
+                // Розраховуємо позицію: позиція гравця + напрямок * дистанцію
+                // Додаємо невеликий рандом до дистанції, щоб не було ідеального кола
+                float dist = _baseSpawnDistance + Random.Range(-5f, 5f);
+                Vector3 spawnPos = _target.position + (spawnDir * dist);
+                spawnPos.z = 0;
+
+                obj.transform.position = spawnPos;
 
                 _activeEntities.Add(obj);
                 _entityToPool[obj] = pool;
             }
-
-            _nextSpawnY += Random.Range(_spawnInterval * 0.7f, _spawnInterval * 1.3f);
         }
 
         private void CleanUpOffscreenObjects()
@@ -76,21 +95,22 @@ namespace Gameplay.Entities.Spawn
             {
                 GameObject entity = _activeEntities[i];
 
-                if (!entity.activeInHierarchy)
+                if (entity == null || !entity.activeInHierarchy)
                 {
                     _entityToPool.Remove(entity);
                     _activeEntities.RemoveAt(i);
                     continue;
                 }
 
-                if (_target.position.y - entity.transform.position.y > _despawnDistance)
+                float currentDist = Vector3.Distance(_target.position, entity.transform.position);
+                
+                if (currentDist > _despawnDistance)
                 {
                     if (_entityToPool.TryGetValue(entity, out ObjectPool pool))
                     {
                         pool.TurnOffObject(entity);
                         _entityToPool.Remove(entity);
                     }
-
                     _activeEntities.RemoveAt(i);
                 }
             }
@@ -111,7 +131,6 @@ namespace Gameplay.Entities.Spawn
                 if (roll <= cumulative)
                     return data;
             }
-
             return null;
         }
     }

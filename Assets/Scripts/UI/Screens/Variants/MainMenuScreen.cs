@@ -49,7 +49,7 @@ namespace UI.Screens.Variants
             AddButtonListener(_achievementsButton, () => ShowPopup(PopupTypes.Achievements));
             AddButtonListener(_personalizationButton, () => ShowScreen(ScreenTypes.Personalization));
             AddButtonListener(_chestButton, () => ShowScreen(ScreenTypes.Chest));
-            
+
             _playButton.onClick.AddListener(StartGameplay);
             _configurationManager.Initialize(_configurationDataService);
             _configurationManager.OnUpgrade += ConfigurationUpgraded;
@@ -86,15 +86,16 @@ namespace UI.Screens.Variants
             _planeTickets.SetActive(false);
             _shopButton.gameObject.SetActive(false);
 
-            bool value = _configurationDataService.GetConfigurationData(ConfigurationType.Body).Level >= 16;
-            _configurationManager.AdsConfigurationCard.gameObject.SetActive(value);
+            bool value = _configurationDataService.GetConfigurationData(ConfigurationType.Body).Level >=
+                         _configurationDataService.ConfigurationCollection.AdditionalEngineConfig.PlaneLevelToUnlock;
+            _configurationManager.AdsCard.gameObject.SetActive(value);
         }
 
         private void ActivateSecondStage()
         {
             _shopButton.gameObject.SetActive(true);
             _planeTickets.SetActive(true);
-            _configurationManager.AdsConfigurationCard.gameObject.SetActive(true);
+            _configurationManager.AdsCard.gameObject.SetActive(true);
         }
 
         private void ConfigurationUpgraded(ConfigurationType type, bool isCycle)
@@ -106,7 +107,7 @@ namespace UI.Screens.Variants
                     if (_configurationDataService.GetConfigurationData(ConfigurationType.Body).Level >=
                         _configurationDataService.ConfigurationCollection.AdditionalEngineConfig.PlaneLevelToUnlock)
                     {
-                        _configurationManager.AdsConfigurationCard.gameObject.SetActive(true);
+                        _configurationManager.AdsCard.gameObject.SetActive(true);
                     }
 
                     break;

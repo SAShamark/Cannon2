@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4873c89e77c7f284c9b5133ec3410fb9, type: 3}
-  m_Name: RocketBody
+  m_Name: Body
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Data.AirplaneConfig
   _baseCost: 50
   _growth: 1.25

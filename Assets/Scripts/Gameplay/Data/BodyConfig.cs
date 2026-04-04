@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Gameplay.Data
 {
     [CreateAssetMenu(fileName = "RocketBody", menuName = "ScriptableObjects/Configuration/RocketBody")]
-    public class RocketBodyConfig : ConfigurationConfig
+    public class BodyConfig : ConfigurationConfig
     {
         [Header("Fuel")]
         [SerializeField] private float _baseFuel = 100f;

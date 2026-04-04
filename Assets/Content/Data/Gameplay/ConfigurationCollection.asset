@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d5d0ece7832744cb6264f1dcd934a9, type: 3}
   m_Name: ConfigurationCollection
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Data.ConfigurationCollection
-  _rocketBodyConfig: {fileID: 11400000, guid: 8a7810d7beb651046af4773cd7725a72, type: 2}
+  _bodyConfig: {fileID: 11400000, guid: 8a7810d7beb651046af4773cd7725a72, type: 2}
   _mainEngineConfig: {fileID: 11400000, guid: 8ce2c2015f86e6747ac439ed333a25ef, type: 2}
   _currencyMultiplierConfig: {fileID: 11400000, guid: 030474e314093944d958a6601e850688, type: 2}
   _additionalEngineConfig: {fileID: 11400000, guid: 297264aa0ca80e949bbe55b6d5781b04, type: 2}

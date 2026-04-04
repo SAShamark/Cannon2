@@ -19,7 +19,6 @@ namespace UI.Screens.Variants.MainMenu
         [SerializeField] private List<Image> _levelIndicators;
         [SerializeField] private Color _filledIndicatorColor;
         [SerializeField] private Color _emptyIndicatorColor;
-        [SerializeField] private ConfigurationManager _configurationManager;
 
         private int _level;
         private int _indicatorsCountToNextPart;

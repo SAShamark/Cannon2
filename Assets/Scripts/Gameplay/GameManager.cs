@@ -7,6 +7,7 @@ using UI.Managers;
 using UI.Screens;
 using UI.Screens.Variants;
 using UI.Screens.Variants.Gameplay;
+using UI.Screens.Variants.MainMenu;
 using UnityEngine;
 
 namespace Gameplay
@@ -17,7 +18,7 @@ namespace Gameplay
         [SerializeField] private CharacterControl _characterControl;
         [SerializeField] private GameplayManager _gameplayManager;
         [SerializeField] private CameraControl _cameraControl;
-        [SerializeField]  private Transform _characterContainer;
+        [SerializeField] private Transform _characterContainer;
 
         private UIManager _uiManager;
         private MainMenuScreen _mainMenuScreen;
@@ -25,10 +26,16 @@ namespace Gameplay
         private int _currentLevel;
         private bool _isGameplayInitialized;
         private CharacterControl _characterInstance;
+        private ConfigurationDataService _configurationDataService;
 
         private void Start()
         {
+            _configurationDataService = ServicesManager.Instance.ConfigurationDataService;
+
             _characterInstance = Instantiate(_characterControl, _characterContainer);
+            bool value = _configurationDataService.GetConfigurationData(ConfigurationType.Body).Level >=
+                         _configurationDataService.ConfigurationCollection.AdditionalEngineConfig.PlaneLevelToUnlock;
+            _characterControl.Initialize(value);
             _environmentController.Init(_characterInstance.transform);
             _cameraControl.Initialize(_characterInstance);
             _currentLevel = PlayerPrefs.GetInt(StorageConstants.LEVEL_PROGRESS_KEY, 1);

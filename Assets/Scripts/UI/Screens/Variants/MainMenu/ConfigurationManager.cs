@@ -9,15 +9,15 @@ namespace UI.Screens.Variants.MainMenu
     [Serializable]
     public class ConfigurationManager : IDisposable
     {
-        [SerializeField] private ConfigurationCard _airplaneCard;
-        [SerializeField] private ConfigurationCard _slingshotRopeCard;
+        [SerializeField] private ConfigurationCard _bodyCard;
+        [SerializeField] private ConfigurationCard _engineCard;
         [SerializeField] private ConfigurationCard _currencyMultiplierCard;
-        [SerializeField] private AdsConfigurationCard _adsConfigurationCard;
+        [SerializeField] private AdsConfigurationCard _adsCard;
 
         private ConfigurationDataService _dataService;
         private CurrencyService _currencyService;
         private StorageService _storageService;
-        public AdsConfigurationCard AdsConfigurationCard => _adsConfigurationCard;
+        public AdsConfigurationCard AdsCard => _adsCard;
 
         public event Action<ConfigurationType, bool> OnUpgrade;
 
@@ -34,24 +34,24 @@ namespace UI.Screens.Variants.MainMenu
                 switch (data.Type)
                 {
                     case ConfigurationType.Body:
-                        _airplaneCard.Initialize(
-                            _dataService.ConfigurationCollection.RocketBodyConfig.Sprite,
-                            _dataService.ConfigurationCollection.RocketBodyConfig.UpgradeCountToNextPart - 1,
+                        _bodyCard.Initialize(
+                            _dataService.ConfigurationCollection.BodyConfig.Sprite,
+                            _dataService.ConfigurationCollection.BodyConfig.UpgradeCountToNextPart - 1,
                             data.Level, upgradeCost);
-                        _airplaneCard.ChangeInteractability(
+                        _bodyCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
-                        _airplaneCard.OnUpgrade += UpgradeAirplane;
+                        _bodyCard.OnUpgrade += UpgradeBody;
 
                         break;
 
                     case ConfigurationType.Engine:
-                        _slingshotRopeCard.Initialize(
+                        _engineCard.Initialize(
                             _dataService.ConfigurationCollection.MainEngineConfig.Sprite,
                             _dataService.ConfigurationCollection.MainEngineConfig.UpgradeCountToNextPart - 1,
                             data.Level, upgradeCost);
-                        _slingshotRopeCard.ChangeInteractability(
+                        _engineCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
-                        _slingshotRopeCard.OnUpgrade += UpgradeSlingshotRope;
+                        _engineCard.OnUpgrade += UpgradeEngine;
                         break;
 
                     case ConfigurationType.Income:
@@ -66,9 +66,9 @@ namespace UI.Screens.Variants.MainMenu
                         _currencyMultiplierCard.OnUpgrade += UpgradeCurrencyMultiplier;
                         break;
                     case ConfigurationType.Rocket:
-                        _adsConfigurationCard.Initialize(
+                        _adsCard.Initialize(
                             _dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite, data.Level);
-                        _adsConfigurationCard.OnConfigUpgrade += UpgradeRocket;
+                        _adsCard.OnConfigUpgrade += UpgradeRocket;
                         break;
                     default:
                         Debug.LogWarning($"Unknown configuration type: {data.Type}");
@@ -77,26 +77,26 @@ namespace UI.Screens.Variants.MainMenu
             }
         }
 
-        private void UpgradeAirplane()
+        private void UpgradeBody()
         {
             if (_dataService.TryUpgrade(ConfigurationType.Body, out int newLevel, out int newCost))
             {
-                Sprite sprite = _dataService.ConfigurationCollection.RocketBodyConfig.Sprite;
-                _airplaneCard.Draw(sprite, newLevel, newCost);
+                Sprite sprite = _dataService.ConfigurationCollection.BodyConfig.Sprite;
+                _bodyCard.Draw(sprite, newLevel, newCost);
             }
 
             ChangeCardsInteractability();
-            int interval = _dataService.ConfigurationCollection.RocketBodyConfig.UpgradeCountToNextPart;
+            int interval = _dataService.ConfigurationCollection.BodyConfig.UpgradeCountToNextPart;
             bool isCycle = (newLevel - interval) % (interval - 1) == 0;
             OnUpgrade?.Invoke(ConfigurationType.Body, isCycle);
         }
 
-        private void UpgradeSlingshotRope()
+        private void UpgradeEngine()
         {
             if (_dataService.TryUpgrade(ConfigurationType.Engine, out int newLevel, out int newCost))
             {
                 Sprite sprite = _dataService.ConfigurationCollection.MainEngineConfig.Sprite;
-                _slingshotRopeCard.Draw(sprite, newLevel, newCost);
+                _engineCard.Draw(sprite, newLevel, newCost);
             }
 
             ChangeCardsInteractability();
@@ -140,7 +140,7 @@ namespace UI.Screens.Variants.MainMenu
         {
             _dataService.UpgradeRocket();
             var sprite = _dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite;
-            _adsConfigurationCard.Draw(sprite, level + 1);
+            _adsCard.Draw(sprite, level + 1);
             OnUpgrade?.Invoke(ConfigurationType.Rocket, false);
         }
 
@@ -152,11 +152,11 @@ namespace UI.Screens.Variants.MainMenu
                 switch (data.Type)
                 {
                     case ConfigurationType.Body:
-                        _airplaneCard.Draw(
-                            _dataService.ConfigurationCollection.RocketBodyConfig.Sprite, data.Level, upgradeCost);
+                        _bodyCard.Draw(
+                            _dataService.ConfigurationCollection.BodyConfig.Sprite, data.Level, upgradeCost);
                         break;
                     case ConfigurationType.Engine:
-                        _slingshotRopeCard.Draw(
+                        _engineCard.Draw(
                             _dataService.ConfigurationCollection.MainEngineConfig.Sprite, data.Level, upgradeCost);
                         break;
                     case ConfigurationType.Income:
@@ -168,7 +168,7 @@ namespace UI.Screens.Variants.MainMenu
                                 data.Level, currentLevel));
                         break;
                     case ConfigurationType.Rocket:
-                        _adsConfigurationCard.Draw(_dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite,
+                        _adsCard.Draw(_dataService.ConfigurationCollection.AdditionalEngineConfig.Sprite,
                             data.Level);
                         break;
                 }
@@ -185,11 +185,11 @@ namespace UI.Screens.Variants.MainMenu
                 switch (data.Type)
                 {
                     case ConfigurationType.Body:
-                        _airplaneCard.ChangeInteractability(
+                        _bodyCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
                         break;
                     case ConfigurationType.Engine:
-                        _slingshotRopeCard.ChangeInteractability(
+                        _engineCard.ChangeInteractability(
                             _currencyService.GetCurrencyByType(CurrencyType.Coin).Currency >= upgradeCost);
                         break;
                     case ConfigurationType.Income:
@@ -202,11 +202,11 @@ namespace UI.Screens.Variants.MainMenu
 
         public void Dispose()
         {
-            _airplaneCard.OnUpgrade -= UpgradeAirplane;
-            _slingshotRopeCard.OnUpgrade -= UpgradeSlingshotRope;
+            _bodyCard.OnUpgrade -= UpgradeBody;
+            _engineCard.OnUpgrade -= UpgradeEngine;
             _currencyMultiplierCard.OnUpgrade -= UpgradeCurrencyMultiplier;
 
-            _adsConfigurationCard.OnConfigUpgrade -= UpgradeRocket;
+            _adsCard.OnConfigUpgrade -= UpgradeRocket;
         }
     }
 }

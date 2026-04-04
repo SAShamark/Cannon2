@@ -461,10 +461,10 @@ MonoBehaviour:
   _achievementsButton: {fileID: 4851699480904967161}
   _planeTickets: {fileID: 6238226509754872519}
   _configurationManager:
-    _airplaneCard: {fileID: 8294609267380308963}
-    _slingshotRopeCard: {fileID: 7602290692119191603}
+    _bodyCard: {fileID: 8294609267380308963}
+    _engineCard: {fileID: 7602290692119191603}
     _currencyMultiplierCard: {fileID: 317477107418433812}
-    _adsConfigurationCard: {fileID: 7525996781648989857}
+    _adsCard: {fileID: 7525996781648989857}
 --- !u!223 &-5928136427713472305
 Canvas:
   m_ObjectHideFlags: 0
@@ -3400,7 +3400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1109113444201750893, guid: 1b1efacf9a7b837478677621e44cd4af, type: 3}
       propertyPath: _configurationType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1109113444201750893, guid: 1b1efacf9a7b837478677621e44cd4af, type: 3}
       propertyPath: _emptyIndicatorColor.b
@@ -4225,6 +4225,10 @@ PrefabInstance:
     - target: {fileID: 1105093763447534796, guid: 1b1efacf9a7b837478677621e44cd4af, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1109113444201750893, guid: 1b1efacf9a7b837478677621e44cd4af, type: 3}
+      propertyPath: _configurationType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1109113444201750893, guid: 1b1efacf9a7b837478677621e44cd4af, type: 3}
       propertyPath: _emptyIndicatorColor.b

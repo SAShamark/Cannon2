@@ -32,7 +32,7 @@ namespace Gameplay
         {
             _environmentController = environmentController;
             _characterControl = characterControl;
-
+            
             _environmentController.OnFinishReached += LevelCompleted;
             _finishLineDistance = _environmentController.GetDistanceToFinishLine();
             _spawner.Init(_characterControl.transform);
@@ -82,7 +82,7 @@ namespace Gameplay
         private void CharacterLaunched(float fuelPercent)
         {
             _characterControl.HealthControl.OnHealthChanged += _gameplayScreen.UpdateHealth;
-            _characterControl.Initialize(_gameplayScreen.Joystick, fuelPercent);
+            _characterControl.Launch(_gameplayScreen.Joystick, fuelPercent);
             _characterControl.FuelControl.OnFuelChanged += _gameplayScreen.FuelUI.UpdateMainDisplay;
             _characterControl.AdditionalRockets.FuelControl.OnFuelChanged +=
                 _gameplayScreen.FuelUI.UpdateAdditionalDisplay;

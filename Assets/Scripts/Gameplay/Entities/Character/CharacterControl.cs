@@ -27,13 +27,17 @@ namespace Gameplay.Entities.Character
 
         public event Action OnLevelFinished;
 
-        public void Initialize(FloatingJoystick joystick, float fuelPercent)
+        public void Initialize(bool isAdditionalRocketsUnlocked)
+        {
+            _additionalRockets.Init(isAdditionalRocketsUnlocked, 100);
+        }
+
+        public void Launch(FloatingJoystick joystick, float fuelPercent)
         {
             _joystick = joystick;
             FuelControl.Init(fuelPercent);
             _healthControl.Init();
             _mainRocketsVFX[0].transform.parent.gameObject.SetActive(true);
-            _additionalRockets.Init(1);
             IsLaunched = true;
         }
 
